@@ -63,4 +63,12 @@ public class UserSecurityIdentity implements SecurityIdentity {
     public Uni<Boolean> checkPermission(Permission permission) {
         return securityIdentity.checkPermission(permission);
     }
+
+    @Override
+    public String toString() {
+        return "UserSecurityIdentity{" +
+                "securityIdentity=" + securityIdentity +
+                ", principal=" + principal +
+                '}';
+    }
 }

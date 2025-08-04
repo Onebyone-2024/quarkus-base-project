@@ -19,7 +19,7 @@ package io.onebyone.authentication.it;
 import io.onebyone.authentication.payload.RefreshTokenPayload;
 import io.onebyone.authentication.payload.UserTokenPayload;
 import io.onebyone.authentication.security.AuthenticationService;
-import io.onebyone.authentication.utils.JsonUtils;
+import io.onebyone.quarkusBase.utils.JsonUtils;
 import io.quarkus.security.identity.SecurityIdentity;
 import io.smallrye.jwt.util.KeyUtils;
 import io.smallrye.mutiny.Uni;

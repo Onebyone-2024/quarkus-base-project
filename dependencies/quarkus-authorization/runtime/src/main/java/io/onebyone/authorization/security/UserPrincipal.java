@@ -161,4 +161,12 @@ public class UserPrincipal extends DefaultJWTCallerPrincipal implements io.oneby
         }
         additionalClaims = Collections.unmodifiableMap(additionalClaimsMap);
     }
+
+    @Override
+    public String toString() {
+        return "UserPrincipal{" +
+                "claims=" + claims +
+                ", additionalClaims=" + additionalClaims +
+                '}';
+    }
 }
