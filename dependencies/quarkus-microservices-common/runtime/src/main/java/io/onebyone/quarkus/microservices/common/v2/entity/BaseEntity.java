@@ -22,19 +22,18 @@ public abstract class BaseEntity<Id> extends PanacheEntityBase implements Serial
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private ZonedDateTime createdAt;
-    @Column(name = "created_by", length = 32)
+    @Column(name = "created_by", length = 40)
     private String createdBy;
     @UpdateTimestamp(source = SourceType.DB)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
-    @Column(name = "updated_by", length = 32)
+    @Column(name = "updated_by", length = 40)
     private String updatedBy;
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "deleted_at")
     private ZonedDateTime deletedAt;
-    @Column(name = "deleted_by", length = 32)
+    @Column(name = "deleted_by", length = 40)
     private String deletedBy;
 
     public abstract Id getId();
