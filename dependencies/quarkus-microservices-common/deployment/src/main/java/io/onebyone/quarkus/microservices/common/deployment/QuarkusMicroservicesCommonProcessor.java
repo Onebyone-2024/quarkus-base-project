@@ -6,9 +6,16 @@ import io.onebyone.quarkus.microservices.common.crud.SelectablePaginationResourc
 import io.onebyone.quarkus.microservices.common.repository.BaseRepository;
 import io.onebyone.quarkus.microservices.common.utils.*;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
+import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
 import io.quarkus.deployment.builditem.AdditionalIndexedClassesBuildItem;
+import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Singleton;
+import org.jboss.jandex.DotName;
+import org.jboss.jandex.IndexView;
 
 import java.util.List;
 
@@ -44,8 +51,30 @@ class QuarkusMicroservicesCommonProcessor {
                 AdditionalBeanBuildItem.unremovableOf(ParamToQueryRange.class),
                 AdditionalBeanBuildItem.unremovableOf(ParamToQueryIsNull.class),
                 AdditionalBeanBuildItem.unremovableOf(ParamToQueryIsNotNull.class),
-                AdditionalBeanBuildItem.unremovableOf(ParamToQueryContains.class),
-                AdditionalBeanBuildItem.unremovableOf(ValueSeparatorQueryParamParser.class)
+                AdditionalBeanBuildItem.unremovableOf(ParamToQueryContains.class)
         );
+    }
+
+
+
+    @BuildStep
+    void provideValueSeparator(CombinedIndexBuildItem combinedIndexBuildItem, BuildProducer<AdditionalBeanBuildItem> beans) {
+        IndexView indexView = combinedIndexBuildItem.getIndex();
+        DotName serviceName = DotName.createSimple(QueryParamParser.class);
+        boolean provided = (indexView.getAllKnownSubclasses(serviceName).stream()
+                .anyMatch(clazz -> clazz.hasAnnotation(DotName.createSimple(ApplicationScoped.class)) ||
+                        clazz.hasAnnotation(DotName.createSimple(Singleton.class)) ||
+                        clazz.hasAnnotation(DotName.createSimple(RequestScoped.class))
+                ))
+                || !indexView.getAllKnownImplementors(serviceName).isEmpty();
+        if (!provided) {
+            beans.produce(
+                    AdditionalBeanBuildItem
+                            .builder()
+                            .addBeanClass(QueryParamParser.class)
+                            .setUnremovable()
+                            .build()
+            );
+        }
     }
 }

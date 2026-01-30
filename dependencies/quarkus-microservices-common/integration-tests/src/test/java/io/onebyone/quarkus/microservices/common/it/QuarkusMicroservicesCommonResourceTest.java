@@ -18,4 +18,9 @@ public class QuarkusMicroservicesCommonResourceTest {
                 .statusCode(200)
                 .body(is("Hello quarkus-microservices-common"));
     }
+
+    @Test
+    public void testSearch() {
+
+    }
 }

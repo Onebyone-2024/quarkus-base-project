@@ -67,4 +67,6 @@ public class CrudQueryFilterUtilsTest {
         log.info("\nresult:" + whereClause);
         log.info("values: "+sqlParams);
     }
+
+
 }

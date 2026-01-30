@@ -140,6 +140,8 @@ public class CrudQueryFilterUtils {
                     if (parsed != null) {
                         log.debug("parsed key:" + key + ", value: " + parsed);
                         newRequestParams.put(key, parsed);
+                    } else {
+                        newRequestParams.put(key, value);
                     }
                 }
             }
