@@ -112,7 +112,7 @@ public abstract class BasePaginationResource<Entity extends BaseEntity<Id>, Dto 
 
     protected Paginate<Dto> getList(Integer page, Integer size, MultivaluedMap<String, String> requestQueries, ContainerRequestContext context) {
         Page objPage = Page.of(page - 1, size);
-        Sort sort = CrudQueryFilterUtils.fetchSort(context.getUriInfo().getQueryParameters());
+        Sort sort = CrudQueryFilterUtils.fetchSort(requestQueries);
 
         PanacheQuery<Entity> entityQuery = getRepository().createPaginationQuery(requestQueries, searchAbleColumn(), sort);
         long totalCount = entityQuery.count();
