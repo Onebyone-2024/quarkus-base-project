@@ -161,21 +161,21 @@ public class CrudQueryFilterUtils {
                 QueryParamParser parser = instanceHandle.orElse(null);
                 if (parser != null) {
                     List<String> parsed = parser.parse(sortParams);
-                    if (parsed != null) {
-                        Iterator<String> iterator = parsed.iterator();
-                        String prevKey = null;
-                        while (iterator.hasNext()) {
-                            String key = iterator.next();
-                            if (StringUtils.isNotBlank (prevKey) && ("asc".equalsIgnoreCase(key) || "desc".equalsIgnoreCase(key))) {
-                                sortMap.put(prevKey, key.toLowerCase());
-                            } else {
-                                sortMap.put(key, "asc");
-                                keys.add(key);
-                            }
-                            prevKey = key;
+                    if (parsed == null) {
+                        parsed = sortParams;
+                    }
+
+                    Iterator<String> iterator = parsed.iterator();
+                    String prevKey = null;
+                    while (iterator.hasNext()) {
+                        String key = iterator.next();
+                        if (StringUtils.isNotBlank (prevKey) && ("asc".equalsIgnoreCase(key) || "desc".equalsIgnoreCase(key))) {
+                            sortMap.put(prevKey, key.toLowerCase());
+                        } else {
+                            sortMap.put(key, "asc");
+                            keys.add(key);
                         }
-                    } else {
-                        throw new Exception("Could not parse query param \"sort\": " + sortParams);
+                        prevKey = key;
                     }
                 }
             } catch (Exception e) {
